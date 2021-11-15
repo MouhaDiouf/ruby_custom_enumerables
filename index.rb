@@ -95,11 +95,11 @@ module Enumerable
         end
     end 
 
-    def my_map 
+    def my_map(&proc)
         result = []
         if block_given?
             for i in 0...self.length    
-                    result << yield(self[i])
+                    result << proc.call(self[i])
             end
             result 
         else 
@@ -108,7 +108,7 @@ module Enumerable
     end 
 
 
-    def my_inject(start)
+    def my_inject(start=0)
         acc = self[start]
         if block_given?
             for i in start+1...self.length
@@ -154,3 +154,11 @@ p array.my_map { |string| string.upcase }
 p (5..10).to_a.my_inject(2) { |product, n| product + n }
 #p [5, 6, 7, 8, 9, 10].to_a.my_inject { |sum, n| sum + n }            #=> 45
 
+
+
+def multiply_els (arr)
+    puts arr.my_inject{|acc, value| acc * value }
+
+end 
+
+multiply_els([2,4,5]) #=> 40
