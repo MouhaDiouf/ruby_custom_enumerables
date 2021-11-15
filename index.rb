@@ -95,6 +95,33 @@ module Enumerable
         end
     end 
 
+    def my_map 
+        result = []
+        if block_given?
+            for i in 0...self.length    
+                    result << yield(self[i])
+            end
+            result 
+        else 
+            puts "You must provide a block"
+        end
+    end 
+
+
+    def my_inject(start)
+        acc = self[start]
+        if block_given?
+            for i in start+1...self.length
+                p "acc #{acc} value #{self[i]}"    
+                acc = yield(acc, self[i])
+                p "acc becomes #{acc}"
+            end
+            acc 
+        else 
+            puts "You must provide a block"
+        end
+    end 
+
 end 
 
 puts "my_each vs. each"
@@ -118,3 +145,12 @@ ary = [1, 2, 4, 2]
 p ary.my_count                  #=> 4
 p ary.my_count(2)               #=> 2
 p ary.my_count { |x| x%2 == 0 } #=> 3
+
+p "custom map"
+
+array = ["a", "b", "c"]
+p array.my_map { |string| string.upcase }
+
+p (5..10).to_a.my_inject(2) { |product, n| product + n }
+#p [5, 6, 7, 8, 9, 10].to_a.my_inject { |sum, n| sum + n }            #=> 45
+
