@@ -97,9 +97,15 @@ module Enumerable
 
     def my_map(&proc)
         result = []
-        if block_given?
+        if proc 
             for i in 0...self.length    
-                    result << proc.call(self[i])
+                result << yield(self[i])
+            end
+            result
+        
+        elsif block_given?
+            for i in 0...self.length    
+                result << proc.call(self[i])
             end
             result 
         else 
@@ -150,7 +156,7 @@ p "custom map"
 
 array = ["a", "b", "c"]
 p array.my_map { |string| string.upcase }
-
+p "after custom map"
 p (5..10).to_a.my_inject(2) { |product, n| product + n }
 #p [5, 6, 7, 8, 9, 10].to_a.my_inject { |sum, n| sum + n }            #=> 45
 
